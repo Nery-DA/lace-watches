@@ -10,7 +10,7 @@ service cloud.firestore {
 
     function isAdmin() {
       return request.auth != null
-        && request.auth.token.email in ['ADMIN@EXEMPLO.COM'];
+        && request.auth.token.email in ['alexandrenery6@gmail.com'];
     }
 
     // Catálogo e dados da loja: todos leem, só o admin altera.

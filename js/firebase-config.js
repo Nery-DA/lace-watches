@@ -20,4 +20,11 @@
    Esses dados podem ficar públicos: quem protege o painel são as
    regras de segurança (arquivo firestore.rules) e o login.
    ========================================================== */
-window.LACE_FIREBASE = null;
+window.LACE_FIREBASE = {
+  apiKey: "AIzaSyCVvrHXQ4-xmaJ95OZECIJM30ii1Ed5fGs",
+  authDomain: "lace-watches.firebaseapp.com",
+  projectId: "lace-watches",
+  storageBucket: "lace-watches.firebasestorage.app",
+  messagingSenderId: "72877953771",
+  appId: "1:72877953771:web:59c10336b12960090664ae"
+};
