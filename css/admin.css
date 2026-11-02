@@ -1,0 +1,101 @@
+/* LACE — painel do administrador */
+:root{
+  --bg:#F7F5F0; --card:#FFFFFF; --soft:#EFEBE3; --line:#DEDACF;
+  --ink:#181818; --ink-soft:#6B6259; --brown:#5C4E43; --gold:#C5A059;
+  --accent:#C9773F; --ok:#1F8F55; --bad:#B3261E;
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ background:var(--bg); color:var(--ink); font-family:'Manrope',sans-serif; font-size:15px; line-height:1.45; -webkit-font-smoothing:antialiased; }
+[hidden]{ display:none !important; }
+button{ font:inherit; cursor:pointer; }
+input,select,textarea{ font:inherit; color:inherit; }
+code{ background:var(--soft); padding:1px 5px; border-radius:3px; font-size:.85em; }
+.muted{ color:var(--ink-soft); }
+.small{ font-size:.8rem; }
+
+.adm-top{ display:flex; justify-content:space-between; align-items:center; padding:14px max(16px,4vw); border-bottom:1px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:20; }
+.adm-logo{ text-decoration:none; color:var(--ink); font-family:'Cormorant Garamond',serif; font-size:1.5rem; letter-spacing:.3em; display:flex; align-items:baseline; gap:10px; }
+.adm-logo span{ font-family:'Manrope'; font-size:.62rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); }
+.adm-user{ display:flex; align-items:center; gap:12px; font-size:.8rem; color:var(--ink-soft); }
+
+.adm-card{ background:var(--card); border:1px solid var(--line); border-radius:8px; padding:24px; }
+.adm-center{ max-width:420px; margin:10vh auto 0; display:flex; flex-direction:column; gap:12px; }
+.adm-center h1{ font-family:'Cormorant Garamond',serif; font-weight:500; font-size:2rem; }
+.adm-form{ display:flex; flex-direction:column; gap:14px; }
+.adm-form.wide{ max-width:560px; }
+.adm-form label{ display:flex; flex-direction:column; gap:6px; font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); }
+.adm-form label small{ text-transform:none; letter-spacing:0; }
+.adm-form input,.adm-form textarea{ border:1px solid var(--line); border-radius:4px; padding:11px 12px; background:#fff; font-size:.95rem; text-transform:none; letter-spacing:0; }
+input:focus,select:focus,textarea:focus{ outline:2px solid var(--gold); outline-offset:0; border-color:var(--gold); }
+.adm-erro{ color:var(--bad); font-size:.85rem; }
+
+.btn-dark{ background:var(--ink); color:#fff; border:none; border-radius:3px; padding:11px 18px; font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; transition:background .25s; }
+.btn-dark:hover{ background:var(--brown); }
+.btn-dark:disabled{ background:#b9b2a7; cursor:not-allowed; }
+.btn-ok{ background:var(--ok); color:#fff; border:none; border-radius:3px; padding:9px 14px; font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; }
+.btn-ghost{ background:transparent; border:1px solid var(--line); border-radius:3px; padding:8px 12px; font-size:.75rem; color:var(--ink); }
+.btn-ghost:hover{ border-color:var(--ink); }
+.btn-ghost.danger{ color:var(--bad); }
+
+main{ max-width:1100px; margin:0 auto; padding:20px max(16px,4vw) 80px; }
+.adm-tabs{ display:flex; gap:4px; border-bottom:1px solid var(--line); margin-bottom:20px; overflow-x:auto; }
+.adm-tabs button{ background:none; border:none; border-bottom:2px solid transparent; padding:12px 16px; font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); white-space:nowrap; }
+.adm-tabs button.on{ color:var(--ink); border-color:var(--ink); }
+.badge{ background:var(--accent); color:#fff; border-radius:999px; font-size:.68rem; padding:1px 7px; margin-left:4px; letter-spacing:0; }
+
+.adm-bar{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.adm-bar.sticky{ position:sticky; top:61px; background:var(--bg); padding:10px 0; z-index:10; }
+.adm-bar input[type=search],.adm-bar select{ border:1px solid var(--line); border-radius:999px; padding:9px 14px; background:#fff; min-width:0; }
+.adm-bar input[type=search]{ flex:1 1 200px; }
+.chips{ display:flex; flex-wrap:wrap; gap:6px; }
+.chip{ border:1px solid var(--line); background:transparent; border-radius:999px; padding:7px 14px; font-size:.75rem; color:var(--ink-soft); }
+.chip.on{ background:var(--ink); color:#fff; border-color:var(--ink); }
+.vazio{ text-align:center; color:var(--ink-soft); padding:40px 0; }
+
+/* pedidos */
+.pedidos{ display:flex; flex-direction:column; gap:12px; margin-top:14px; }
+.pedido{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:6px; padding:16px; display:flex; flex-direction:column; gap:8px; }
+.pedido.st-confirmado{ border-left-color:var(--ok); }
+.pedido.st-cancelado{ border-left-color:#aaa; opacity:.75; }
+.pedido header{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.pill{ font-size:.66rem; text-transform:uppercase; letter-spacing:.1em; border:1px solid currentColor; border-radius:999px; padding:1px 8px; margin-left:6px; color:var(--accent); }
+.st-confirmado .pill{ color:var(--ok); } .st-cancelado .pill{ color:#888; }
+.pedido ul{ list-style:none; display:flex; flex-direction:column; gap:3px; font-size:.9rem; }
+.est{ font-size:.72rem; background:var(--soft); border-radius:3px; padding:1px 6px; margin-left:6px; color:var(--ink-soft); }
+.est.falta{ background:#fbe3e1; color:var(--bad); font-weight:600; }
+.pedido footer{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-top:1px solid var(--line); padding-top:10px; }
+.acoes{ display:flex; gap:8px; flex-wrap:wrap; }
+.confirma{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; background:var(--soft); border-radius:4px; padding:10px; font-size:.85rem; }
+.confirma span{ flex:1 1 220px; }
+
+/* produtos */
+.adm-import{ margin-bottom:16px; display:flex; flex-direction:column; gap:10px; align-items:flex-start; }
+.adm-import h2{ font-family:'Cormorant Garamond',serif; font-weight:500; font-size:1.5rem; }
+.produtos{ display:flex; flex-direction:column; gap:10px; margin-top:10px; }
+.prod{ background:var(--card); border:1px solid var(--line); border-radius:6px; padding:12px; display:grid; grid-template-columns:72px 1fr; gap:14px; }
+.prod.oculto{ opacity:.6; }
+.prod.sujo{ border-color:var(--gold); box-shadow:0 0 0 1px var(--gold); }
+.prod img{ width:72px; height:88px; object-fit:cover; border-radius:4px; background:var(--soft); }
+.prod-main{ display:flex; flex-direction:column; gap:10px; min-width:0; }
+.prod-head{ display:flex; flex-wrap:wrap; gap:4px 12px; align-items:baseline; }
+.prod-head strong{ font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-weight:500; }
+.campos,.estoques{ display:flex; flex-wrap:wrap; gap:10px 16px; align-items:flex-end; }
+.campos label,.est-campo{ display:flex; flex-direction:column; gap:4px; font-size:.7rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.06em; }
+.campos input[type=number]{ width:120px; border:1px solid var(--line); border-radius:4px; padding:8px 10px; }
+.campos .chk{ flex-direction:row; align-items:center; gap:6px; padding-bottom:9px; }
+.estoques{ background:var(--soft); border-radius:4px; padding:10px; }
+.stepper{ display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:999px; background:#fff; overflow:hidden; }
+.stepper button{ width:32px; height:34px; border:none; background:none; font-size:1.05rem; }
+.stepper button:hover{ background:var(--soft); }
+.stepper input{ width:52px; border:none; text-align:center; padding:6px 0; -moz-appearance:textfield; }
+.stepper input::-webkit-inner-spin-button{ -webkit-appearance:none; }
+
+.adm-toast{ position:fixed; left:50%; bottom:max(20px,env(safe-area-inset-bottom)); transform:translateX(-50%); background:var(--ink); color:#fff; padding:12px 20px; border-radius:999px; font-size:.85rem; z-index:50; max-width:calc(100% - 32px); text-align:center; }
+.adm-toast.erro{ background:var(--bad); border-radius:10px; }
+
+@media (max-width:560px){
+  .prod{ grid-template-columns:56px 1fr; }
+  .prod img{ width:56px; height:68px; }
+  .campos input[type=number]{ width:100px; }
+}
+@media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }

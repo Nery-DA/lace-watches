@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Lace | Painel do administrador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+
+<header class="adm-top">
+  <a class="adm-logo" href="index.html">LACE<span>painel</span></a>
+  <div class="adm-user" id="admUser" hidden>
+    <span id="admEmail"></span>
+    <button class="btn-ghost" id="btnSair">Sair</button>
+  </div>
+</header>
+
+<!-- Firebase não configurado -->
+<section class="adm-card adm-center" id="semConfig" hidden>
+  <h1>Painel ainda não ativado</h1>
+  <p>Para usar o login, o controle de estoque e a lista de pedidos, é preciso ligar o site ao Firebase.</p>
+  <p>Siga o passo a passo do arquivo <b>LEIA-ME.md</b>, na seção <b>Painel do administrador</b>, e depois cole a configuração em <code>js/firebase-config.js</code>.</p>
+</section>
+
+<!-- Login -->
+<section class="adm-card adm-center" id="telaLogin" hidden>
+  <h1>Entrar no painel</h1>
+  <p class="muted">Acesso restrito à administração da Lace.</p>
+  <div class="adm-form" id="formLogin">
+    <label>E-mail<input type="email" id="loginEmail" autocomplete="username" /></label>
+    <label>Senha<input type="password" id="loginSenha" autocomplete="current-password" /></label>
+    <button class="btn-dark" id="btnEntrar">Entrar</button>
+    <p class="adm-erro" id="loginErro" hidden></p>
+  </div>
+</section>
+
+<!-- Painel -->
+<main id="painel" hidden>
+  <nav class="adm-tabs" role="tablist">
+    <button class="on" data-tab="pedidos">Pedidos <span class="badge" id="badgePend" hidden>0</span></button>
+    <button data-tab="produtos">Preços e estoque</button>
+    <button data-tab="loja">Loja</button>
+  </nav>
+
+  <!-- PEDIDOS -->
+  <section class="adm-tab" id="tab-pedidos">
+    <div class="adm-bar">
+      <div class="chips" id="filtroPedidos">
+        <button class="chip on" data-st="pendente">Pendentes</button>
+        <button class="chip" data-st="confirmado">Confirmados</button>
+        <button class="chip" data-st="cancelado">Cancelados</button>
+        <button class="chip" data-st="todos">Todos</button>
+      </div>
+      <button class="btn-ghost" id="btnAtualizar">Atualizar</button>
+    </div>
+    <p class="muted small">O estoque só diminui quando você <b>confirma</b> um pedido. Pedidos cancelados antes da confirmação não mexem no estoque.</p>
+    <div id="listaPedidos" class="pedidos"></div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section class="adm-tab" id="tab-produtos" hidden>
+    <div class="adm-import adm-card" id="boxImportar" hidden>
+      <h2>Primeiro acesso: importar o catálogo</h2>
+      <p>O banco ainda está vazio. Clique abaixo para copiar os produtos, preços e dados da loja do arquivo <code>dados/produtos.js</code> para o painel. Depois disso, as mudanças são feitas aqui.</p>
+      <button class="btn-dark" id="btnImportar">Importar catálogo</button>
+    </div>
+    <div class="adm-bar sticky">
+      <input type="search" id="buscaProd" placeholder="Buscar produto…" aria-label="Buscar produto" />
+      <select id="catProd" aria-label="Categoria"></select>
+      <button class="btn-dark" id="btnSalvar" disabled>Salvar alterações</button>
+    </div>
+    <p class="muted small">Preço vazio = "valor a combinar". Estoque vazio = sem controle (sempre disponível). Estoque 0 = esgotado.</p>
+    <div id="listaProdutos" class="produtos"></div>
+  </section>
+
+  <!-- LOJA -->
+  <section class="adm-tab" id="tab-loja" hidden>
+    <div class="adm-card adm-form wide">
+      <label>WhatsApp que recebe os pedidos <small>(55 + DDD + número, só números)</small><input type="text" id="cfgWhats" inputmode="numeric" /></label>
+      <label>Instagram <small>(sem @)</small><input type="text" id="cfgInsta" /></label>
+      <label>Mensagem no fim do pedido<textarea id="cfgMsg" rows="2"></textarea></label>
+      <button class="btn-dark" id="btnSalvarLoja">Salvar dados da loja</button>
+    </div>
+  </section>
+</main>
+
+<div class="adm-toast" id="toast" hidden></div>
+
+<script src="js/firebase-config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
