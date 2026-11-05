@@ -1,9 +1,8 @@
 rules_version = '2';
 
 // Regras de segurança do banco (Firestore) da Lace.
-// Cole este conteúdo em: Firebase → Firestore Database → Regras → Publicar.
-// TROQUE o e-mail abaixo pelo e-mail do login de administrador.
-// Para mais de um administrador: ['email1@gmail.com', 'email2@gmail.com']
+// Administrador(es): troque/adicione e-mails na lista abaixo.
+// Para mais de um: ['email1@gmail.com', 'email2@gmail.com']
 
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -13,28 +12,33 @@ service cloud.firestore {
         && request.auth.token.email in ['alexandrenery6@gmail.com'];
     }
 
-    // Catálogo e dados da loja: todos leem, só o admin altera.
-    match /produtos/{id} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-    match /config/{id} {
-      allow read: if true;
-      allow write: if isAdmin();
+    // Catálogo, dados da loja e fotos: todos leem, só o admin altera.
+    match /produtos/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /config/{id}   { allow read: if true; allow write: if isAdmin(); }
+    match /imagens/{id}  { allow read: if true; allow write: if isAdmin(); }
+
+    // Cupons: a cliente só consegue conferir um código que já sabe.
+    match /cupons/{id} {
+      allow get: if true;
+      allow list, write: if isAdmin();
     }
 
-    // Pedidos: o cliente só consegue CRIAR um pedido pendente.
-    // Ver, confirmar, cancelar ou apagar: só o admin.
+    // Pedidos: a cliente cria um pedido pendente e acompanha pelo link
+    // (o endereço tem um código aleatório). Listar, alterar e apagar: só o admin.
     match /pedidos/{id} {
       allow create: if request.resource.data.status == 'pendente'
         && request.resource.data.criadoEm == request.time
-        && request.resource.data.keys().hasOnly(['codigo', 'nome', 'obs', 'itens', 'total', 'aCombinar', 'status', 'criadoEm'])
+        && request.resource.data.keys().hasOnly(['codigo', 'nome', 'telefone', 'email', 'obs', 'entrega', 'pagamento',
+             'itens', 'subtotal', 'cupom', 'descontoCupom', 'descontoPix', 'frete', 'total', 'aCombinar', 'status', 'criadoEm'])
         && request.resource.data.codigo is string && request.resource.data.codigo.size() <= 12
         && request.resource.data.nome is string && request.resource.data.nome.size() > 0 && request.resource.data.nome.size() <= 80
+        && request.resource.data.telefone is string && request.resource.data.telefone.size() <= 20
         && request.resource.data.obs is string && request.resource.data.obs.size() <= 500
+        && request.resource.data.pagamento in ['pix', 'cartao']
         && request.resource.data.itens is list && request.resource.data.itens.size() > 0 && request.resource.data.itens.size() <= 40
         && request.resource.data.total is number;
-      allow read, update, delete: if isAdmin();
+      allow get: if true;
+      allow list, update, delete: if isAdmin();
     }
   }
 }

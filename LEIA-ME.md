@@ -100,26 +100,16 @@ Dica: se o site ficar em branco depois de uma edição, confira se não ficou fa
 
 ---
 
-## Painel do administrador (login, estoque e pedidos)
+## Painel do administrador
 
-Com o painel ativado:
-- **Só quem tem o login de administrador** altera preços, estoque e dados da loja (em `admin.html`).
-- Quando o cliente finaliza, o pedido entra no painel como **pendente**, com um código (ex.: `LO2WJCQ`) que também vai na mensagem do WhatsApp.
-- O estoque **só diminui quando você clica em "Confirmar venda"**. Se o cliente desistir, clique em "Cancelar" e nada muda no estoque.
-- Se cancelar uma venda já confirmada, use "Cancelar e devolver ao estoque".
-- O site mostra "Restam 2 unidades" quando há 3 ou menos, risca a cor esgotada e impede o cliente de colocar na sacola mais do que tem.
-- Estoque vazio (∞) = sem controle, a peça fica sempre disponível.
+Endereço: `https://nery-da.github.io/lace-watches/#admin` (ou `admin.html`). Só o e-mail definido em `firestore.rules` entra.
 
-### Como ativar (uma vez, ~15 minutos, gratuito)
+- **Início:** faturamento, vendas, ticket médio, pedidos a enviar, mais vendidos e estoque baixo.
+- **Pedidos:** aguardando pagamento → **Marcar como pago** (o estoque baixa) → **Marcar como enviado** (com rastreio) → **Entregue**. Cancelar um pedido pago devolve as peças.
+- **Produtos e estoque:** preços e estoque rápidos na lista; **Editar** abre fotos, descrição, selo, destaque, cores/tamanhos com preço e estoque próprios. **+ Novo produto** cria do zero.
+- **Vitrine:** barra de aviso, banners do início e categorias.
+- **Configurações:** WhatsApp, Pix (chave → QR Code com valor exato), desconto no Pix, parcelas, frete (retirada, local, outras cidades, grátis acima de) e cupons.
 
-1. Entre em **https://console.firebase.google.com** com uma conta Google e clique em **Criar projeto** (ex.: `lace-watches`). Pode desativar o Google Analytics.
-2. **Login:** menu *Criação → Authentication* → *Vamos começar* → ative **E-mail/senha**. Na aba *Usuários*, clique em **Adicionar usuário** e crie o e-mail e a senha da administradora.
-3. **Banco:** menu *Criação → Firestore Database* → *Criar banco de dados* → local `southamerica-east1 (São Paulo)` → *Modo de produção*.
-4. **Regras:** no Firestore, aba **Regras**: apague o que estiver lá, cole o conteúdo de `firestore.rules`, **troque `ADMIN@EXEMPLO.COM` pelo e-mail criado no passo 2** e clique em **Publicar**.
-5. **Configuração:** ⚙️ *Configurações do projeto* → em *Seus apps*, clique no ícone **</>** (Web), dê um nome e registre. Copie o objeto `firebaseConfig` e cole em `js/firebase-config.js`, no lugar do `null` (há um exemplo no arquivo).
-6. **Domínio do site:** em *Authentication → Configurações → Domínios autorizados*, adicione `SEU-USUARIO.github.io`.
-7. Envie os arquivos para o GitHub, abra `https://SEU-USUARIO.github.io/lace-watches/admin.html`, entre com o login e clique em **Importar catálogo** (só no primeiro acesso). Depois defina os estoques e clique em **Salvar alterações**.
+A loja tem: favoritos, busca, página de cada produto (#p-id), cálculo de frete por CEP, checkout com cupom, Pix com QR Code, cartão por link no WhatsApp e acompanhamento do pedido (#pedido-...) e "Meus pedidos".
 
-Depois de importar, **preços e estoque passam a ser alterados só pelo painel** — o arquivo `dados/produtos.js` fica apenas como reserva (o site volta a usá-lo se o Firebase estiver fora do ar). Produtos novos e fotos novas ainda são incluídos pelo arquivo; me peça que eu adiciono no painel também.
-
-Guarde a senha do administrador em local seguro. Para trocar, use *Authentication → Usuários* no Firebase.
+Regras de segurança: publique o conteúdo de `firestore.rules` em Firebase → Firestore → Regras sempre que ele mudar.
